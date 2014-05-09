@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Regions Of Morocco</title>
+    <script src="jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="raphael-min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../morocco-map-svg.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        jQuery(function($){
+            var RMap = Raphael('map', 600, 600);
+            var _label = RMap.popup(0, 0, "").hide();
+            var attr = { fill: '#898989', stroke: '#FFFFFF', 'stroke-width': 2, 'stroke-linejoin': 'round' }
+            var array = new Array();
+            for (var region in paths) {
+                //Draw Map and store Raphael paths
+                var path = RMap.path(paths[region].path);
+                array[path.id] = region;
+                path.attr(attr);
+                path.hover(function(){
+                    this.animate({
+                        fill: '#8fbf27'
+                    }, 200);
+                    var bbox = this.getBBox();
+                    _label.attr({text: paths[array[this.id]].name}).update(bbox.x, bbox.y + bbox.height/2, bbox.width).toFront().show();
+                }, function(){
+                    this.animate({
+                        fill: attr.fill
+                    }, 200);
+                    _label.hide();
+                }).click(function(){
+
+                })
+            }
+          });
+    </script>
+    <style type="text/css">
+        body {
+            background: #EFEFEF;
+        }
+        #container {
+            width: 500px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+<!-- /container -->
+<div id="container" >
+    <div id='map'></div>
+</div>
+</body>
+</html>
